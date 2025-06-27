@@ -308,6 +308,7 @@
     position: absolute;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    z-index: 2;
 }
 
 .candlestick-body {
@@ -381,6 +382,7 @@
     align-items: end;
     gap: 1px;
     padding: 0 10px;
+    z-index: 1;
 }
 
 .volume-bar {
@@ -638,6 +640,37 @@
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.01); }
 }
+
+.profit-notification {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #00ff88, #00cc6a);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    z-index: 100;
+    animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-out 2.5s;
+    display: none;
+}
+
+.profit-notification.loss {
+    background: linear-gradient(45deg, #ff4757, #ff3742);
+    color: #fff;
+}
+
+@keyframes slideDown {
+    from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
     </style>
 </head>
 <body>
@@ -645,9 +678,12 @@
     <div class="screen active" id="screen1">
         <div class="container">
             <h1 class="headline">💸 DESCUBRA COMO GANHAR DINHEIRO COM APENAS 1 CLIQUE!</h1>
+            
             <p class="subheadline">
-                🔥 OPORTUNIDADE ÚNICA! Teste GRÁTIS nossa estratégia que está fazendo pessoas comuns ganharem até R$500 por dia!
-            </p>
+    🎯 OFERTA EXCLUSIVA! Estamos selecionando apenas 50 novos investidores por mês para receber nosso BÔNUS DE BOAS-VINDAS de R$10,00. 
+    <br><br>
+    💼 Faça parte da nossa plataforma de investimentos e comprove que você tem o perfil para ser um TRADER PROFISSIONAL!
+</p>
             
             <div class="form-container slide-up">
                 <div class="input-group">
@@ -673,7 +709,7 @@
         <div class="container">
             <div class="game-header">
                 <div class="balance-info" id="balance">💰 Seu Saldo: R$ 10,00</div>
-                <div class="round-counter" id="roundCounter">🎯 Rodada 1 de 4</div>
+                <div class="round-counter" id="operationCounter">🎯 Operação 1 de 4</div>
             </div>
             
             <div class="bonus-message">
@@ -695,20 +731,15 @@
             
             <div class="bet-buttons">
                 <button class="bet-button up" onclick="makeBet('up')" id="upBtn">
-                    <span class="main-text">🟢 VAI SUBIR</span>
-                    <span class="sub-text">COMPRAR</span>
+                    <span class="main-text">💰 COMPRAR</span>
                 </button>
                 <button class="bet-button down" onclick="makeBet('down')" id="downBtn">
-                    <span class="main-text">🔴 VAI CAIR</span>
-                    <span class="sub-text">VENDER</span>
+                    <span class="main-text">💰 VENDER</span>
                 </button>
             </div>
             
             <div class="result-message" id="resultMessage"></div>
             
-            <button class="cta-button" onclick="nextRound()" id="nextBtn" style="display: none;">
-                ➡️ PRÓXIMA RODADA
-            </button>
         </div>
     </div>
 
@@ -1037,15 +1068,43 @@ function updateCurrentPriceLine() {
             setTimeout(() => {
                 // Use predefined results
                 const isWin = predefinedResults[currentRound - 1];
-                const winAmount = Math.floor(Math.random() * 100) + 50; // R$50-150
+                const winAmount = Math.floor(Math.random() * 45) + 50; // R$50-95
                 
                 if (isWin) {
                     totalBalance += winAmount;
+
+                    // Mostrar notificação sobre o gráfico
+                    const notification = document.createElement('div');
+                    notification.className = 'profit-notification' + (isWin ? '' : ' loss');
+                    notification.textContent = isWin ? `+R$ ${winAmount},00` : `-R$ ${lossAmount},00`;
+                    document.querySelector('.chart-container').appendChild(notification);
+                    notification.style.display = 'block';
+
+                    // Remover notificação após 3 segundos e continuar automaticamente
+                    setTimeout(() => {
+                        notification.remove();
+                        nextOperation();
+                    }, 3000);
+
                     resultMessage.className = 'result-message win';
                     resultMessage.innerHTML = `✅ INCRÍVEL! Você ganhou R$ ${winAmount},00!<br>🎉 Você tem talento natural para isso!`;
                 } else {
                     const lossAmount = Math.floor(Math.random() * 30) + 10; // R$10-40
                     totalBalance -= lossAmount;
+
+                    // Mostrar notificação sobre o gráfico
+                    const notification = document.createElement('div');
+                    notification.className = 'profit-notification' + (isWin ? '' : ' loss');
+                    notification.textContent = isWin ? `+R$ ${winAmount},00` : `-R$ ${lossAmount},00`;
+                    document.querySelector('.chart-container').appendChild(notification);
+                    notification.style.display = 'block';
+
+                    // Remover notificação após 3 segundos e continuar automaticamente
+                    setTimeout(() => {
+                        notification.remove();
+                        nextOperation();
+                    }, 3000);
+
                     resultMessage.className = 'result-message lose';
                     resultMessage.innerHTML = `❌ Ops! Você perdeu R$ ${lossAmount},00 nessa rodada!<br>💪 Não desista, grandes traders também têm perdas!`;
                 }
@@ -1056,9 +1115,6 @@ function updateCurrentPriceLine() {
                 // Animate chart movement based on result
                 animateChartResult(direction, isWin);
                 
-                setTimeout(() => {
-                    document.getElementById('nextBtn').style.display = 'block';
-                }, 1500);
                 
             }, 3000);
         }
@@ -1089,7 +1145,7 @@ function updateCurrentPriceLine() {
             }, 2000);
         }
 
-        function nextRound() {
+        function nextOperation() {
             currentRound++;
             
             if (currentRound > 4) {
@@ -1102,17 +1158,16 @@ function updateCurrentPriceLine() {
             }
             
             // Reset for next round
-            document.getElementById('roundCounter').textContent = `🎯 Rodada ${currentRound} de 4`;
+            document.getElementById('operationCounter').textContent = `🎯 Operação ${currentRound} de 4`;
             document.getElementById('resultMessage').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'none';
             
             const upBtn = document.getElementById('upBtn');
             const downBtn = document.getElementById('downBtn');
             
             upBtn.disabled = false;
             downBtn.disabled = false;
-            upBtn.innerHTML = '<span class="main-text">🟢 VAI SUBIR</span><span class="sub-text">COMPRAR</span>';
-            downBtn.innerHTML = '<span class="main-text">🔴 VAI CAIR</span><span class="sub-text">VENDER</span>';
+            upBtn.innerHTML = '<span class="main-text">💰 COMPRAR</span>';
+            downBtn.innerHTML = '<span class="main-text">💰 VENDER</span>';
             
             generateChart();
             startTimer();
