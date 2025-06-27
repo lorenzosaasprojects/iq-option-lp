@@ -151,112 +151,262 @@
         }
 
         .chart-container {
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 25px 0;
-            position: relative;
-            height: 350px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-        }
+    background: linear-gradient(135deg, #1a1f2e, #2a2f3e);
+    border: 2px solid #3a3f4e;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 25px 0;
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
 
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
-        }
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #3a3f4e;
+}
 
-        .pair-info {
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
+.pair-info {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        .timer {
-            color: #00ff88;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
+.pair-change {
+    color: #ff4757;
+    font-size: 0.9rem;
+    font-weight: normal;
+}
 
-        .chart-canvas {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #222;
-        }
+.timer {
+    color: #00ff88;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    background: rgba(0, 255, 136, 0.1);
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
 
-        .grid-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0.1;
-        }
+.chart-canvas {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(180deg, #1a1f2e 0%, #151a28 100%);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #2a2f3e;
+}
 
-        .grid-line-horizontal {
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #333;
-        }
+.price-scale {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.75rem;
+    color: #8892b0;
+}
 
-        .grid-line-vertical {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: #333;
-        }
+.price-level {
+    background: rgba(136, 146, 176, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-align: center;
+    border-left: 2px solid #3a3f4e;
+}
 
-        .candlestick {
-            position: absolute;
-            width: 12px;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 2px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-        }
+.current-price-line {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background: #00ff88;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
 
-        .candlestick::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            background: inherit;
-        }
+.current-price-line::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+}
 
-        .candlestick.green {
-            background: linear-gradient(180deg, #00ff88, #00cc6a);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
-        }
+.current-price-line::after {
+    content: attr(data-price);
+    position: absolute;
+    right: 8px;
+    top: -10px;
+    background: #00ff88;
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
 
-        .candlestick.red {
-            background: linear-gradient(180deg, #ff4757, #ff3742);
-            box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
-        }
+.grid-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 65px;
+    bottom: 0;
+    opacity: 0.15;
+}
 
-        .price-line {
-            position: absolute;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            color: #ccc;
-        }
+.grid-line-horizontal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #3a3f4e;
+}
 
+.grid-line-vertical {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #3a3f4e;
+}
+
+.time-scale {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 65px;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 0.7rem;
+    color: #8892b0;
+}
+
+.candlestick {
+    position: absolute;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.candlestick-body {
+    width: 8px;
+    border-radius: 1px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.candlestick-wick {
+    width: 1px;
+    background: inherit;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.candlestick-wick.upper {
+    top: 0;
+}
+
+.candlestick-wick.lower {
+    bottom: 0;
+}
+
+.candlestick.green .candlestick-body {
+    background: linear-gradient(180deg, #00ff88, #00cc6a);
+    border: 1px solid #00aa55;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+}
+
+.candlestick.green .candlestick-wick {
+    background: #00cc6a;
+}
+
+.candlestick.red .candlestick-body {
+    background: linear-gradient(180deg, #ff4757, #ff3742);
+    border: 1px solid #cc2233;
+    box-shadow: 0 0 8px rgba(255, 71, 87, 0.3);
+}
+
+.candlestick.red .candlestick-wick {
+    background: #ff3742;
+}
+
+.candlestick:hover {
+    transform: scale(1.1);
+    z-index: 5;
+}
+
+.candlestick:hover .candlestick-body {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.chart-moving {
+    animation: chartPulse 2s ease-in-out infinite;
+}
+
+@keyframes chartPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.01); }
+}
+
+.volume-indicator {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    right: 65px;
+    height: 30px;
+    display: flex;
+    align-items: end;
+    gap: 1px;
+    padding: 0 10px;
+}
+
+.volume-bar {
+    width: 8px;
+    background: rgba(136, 146, 176, 0.3);
+    border-radius: 1px 1px 0 0;
+    transition: all 0.3s ease;
+}
+
+.volume-bar.high {
+    background: rgba(0, 255, 136, 0.4);
+}
+
+.trend-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    border-radius: 1px;
+    opacity: 0.6;
+    animation: trendGlow 3s ease-in-out infinite;
+}
+
+@keyframes trendGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
         .bet-buttons {
             display: flex;
             gap: 20px;
@@ -481,13 +631,13 @@
         }
 
         .chart-moving {
-            animation: chartPulse 2s ease-in-out infinite;
-        }
+    animation: chartPulse 2s ease-in-out infinite;
+}
 
-        @keyframes chartPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
+@keyframes chartPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.01); }
+}
     </style>
 </head>
 <body>
@@ -533,12 +683,13 @@
             
             <div class="chart-container">
                 <div class="chart-header">
-                    <div class="pair-info">📈 EUR/USD</div>
+                    <div class="pair-info">
+        📈 GBP/JPY <span class="pair-change">(OTC) -1%</span>
+    </div>
                     <div class="timer" id="timer">⏰ 00:15</div>
                 </div>
                 <div class="chart-canvas" id="chartCanvas">
-                    <div class="grid-lines" id="gridLines"></div>
-                    <!-- Candlesticks will be generated here -->
+                    
                 </div>
             </div>
             
@@ -602,98 +753,228 @@
         // Predefined results: Win, Lose, Win, Win
         const predefinedResults = [true, false, true, true];
 
-        // Generate realistic candlestick chart with animation
-        function generateChart() {
-            const canvas = document.getElementById('chartCanvas');
-            
-            // Clear existing candlesticks
-            const existingCandles = canvas.querySelectorAll('.candlestick');
-            existingCandles.forEach(candle => candle.remove());
-            
-            // Generate grid lines
-            generateGridLines();
-            
-            candlesticks = [];
-            
-            // Generate initial candlesticks
-            for (let i = 0; i < 20; i++) {
-                createCandlestick(i, false);
-            }
-            
-            // Start real-time animation
-            startChartAnimation();
-        }
+        // Realistic price data
+let currentPrice = 1.91350;
+let priceHistory = [];
 
-        function generateGridLines() {
-            const gridContainer = document.getElementById('gridLines');
-            gridContainer.innerHTML = '';
-            
-            // Horizontal lines
-            for (let i = 0; i <= 5; i++) {
-                const line = document.createElement('div');
-                line.className = 'grid-line-horizontal';
-                line.style.top = (i * 20) + '%';
-                gridContainer.appendChild(line);
-            }
-            
-            // Vertical lines
-            for (let i = 0; i <= 10; i++) {
-                const line = document.createElement('div');
-                line.className = 'grid-line-vertical';
-                line.style.left = (i * 10) + '%';
-                gridContainer.appendChild(line);
-            }
-        }
+// Generate realistic candlestick chart with proper OHLC data
+function generateChart() {
+    const canvas = document.getElementById('chartCanvas');
+    
+    // Clear existing elements
+    canvas.innerHTML = '';
+    
+    // Generate grid lines and scales
+    generateGridLines();
+    generatePriceScale();
+    generateTimeScale();
+    generateVolumeIndicators();
+    
+    candlesticks = [];
+    priceHistory = [];
+    
+    // Generate initial realistic candlesticks
+    for (let i = 0; i < 25; i++) {
+        createRealisticCandlestick(i, false);
+    }
+    
+    // Add current price line
+    addCurrentPriceLine();
+    
+    // Start real-time animation
+    startChartAnimation();
+}
 
-        function createCandlestick(index, animate = true) {
-            const canvas = document.getElementById('chartCanvas');
-            const candlestick = document.createElement('div');
-            
-            const isGreen = Math.random() > 0.5;
-            const height = Math.random() * 80 + 30;
-            const bottom = Math.random() * 100 + 50;
-            
-            candlestick.className = 'candlestick ' + (isGreen ? 'green' : 'red');
-            candlestick.style.left = (index * 15) + 'px';
-            candlestick.style.height = height + 'px';
-            candlestick.style.bottom = bottom + 'px';
-            
-            // Add wick (thin line)
-            const wickHeight = Math.random() * 20 + 10;
-            candlestick.style.setProperty('--wick-height', wickHeight + 'px');
-            
-            if (animate) {
-                candlestick.style.opacity = '0';
-                candlestick.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    candlestick.style.opacity = '1';
-                    candlestick.style.transform = 'translateY(0)';
-                }, 100);
-            }
-            
-            canvas.appendChild(candlestick);
-            candlesticks.push(candlestick);
-            
-            // Remove old candlesticks if too many
-            if (candlesticks.length > 25) {
-                const oldCandle = candlesticks.shift();
-                if (oldCandle && oldCandle.parentNode) {
-                    oldCandle.remove();
-                }
-            }
-            
-            // Update positions of existing candlesticks
-            candlesticks.forEach((candle, i) => {
-                if (candle && candle.style) {
-                    candle.style.left = (i * 15) + 'px';
-                }
-            });
+function generateGridLines() {
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'grid-lines';
+    
+    // Horizontal lines (price levels)
+    for (let i = 0; i <= 8; i++) {
+        const line = document.createElement('div');
+        line.className = 'grid-line-horizontal';
+        line.style.top = (i * 12.5) + '%';
+        gridContainer.appendChild(line);
+    }
+    
+    // Vertical lines (time intervals)
+    for (let i = 0; i <= 12; i++) {
+        const line = document.createElement('div');
+        line.className = 'grid-line-vertical';
+        line.style.left = (i * 8.33) + '%';
+        gridContainer.appendChild(line);
+    }
+    
+    document.getElementById('chartCanvas').appendChild(gridContainer);
+}
+
+function generatePriceScale() {
+    const priceScale = document.createElement('div');
+    priceScale.className = 'price-scale';
+    
+    const basePrice = 1.91300;
+    for (let i = 0; i < 9; i++) {
+        const priceLevel = document.createElement('div');
+        priceLevel.className = 'price-level';
+        const price = (basePrice + (i * 0.00025)).toFixed(5);
+        priceLevel.textContent = price;
+        priceScale.appendChild(priceLevel);
+    }
+    
+    document.getElementById('chartCanvas').appendChild(priceScale);
+}
+
+function generateTimeScale() {
+    const timeScale = document.createElement('div');
+    timeScale.className = 'time-scale';
+    
+    const times = ['10:58', '11:02', '11:06', '11:10', '11:14'];
+    times.forEach(time => {
+        const timeLabel = document.createElement('span');
+        timeLabel.textContent = time;
+        timeScale.appendChild(timeLabel);
+    });
+    
+    document.getElementById('chartCanvas').appendChild(timeScale);
+}
+
+function generateVolumeIndicators() {
+    const volumeContainer = document.createElement('div');
+    volumeContainer.className = 'volume-indicator';
+    
+    for (let i = 0; i < 25; i++) {
+        const volumeBar = document.createElement('div');
+        volumeBar.className = 'volume-bar';
+        const height = Math.random() * 20 + 5;
+        volumeBar.style.height = height + 'px';
+        
+        if (Math.random() > 0.7) {
+            volumeBar.classList.add('high');
         }
+        
+        volumeContainer.appendChild(volumeBar);
+    }
+    
+    document.getElementById('chartCanvas').appendChild(volumeContainer);
+}
+
+function createRealisticCandlestick(index, animate = true) {
+    const canvas = document.getElementById('chartCanvas');
+    
+    // Generate realistic OHLC data
+    const prevClose = priceHistory.length > 0 ? priceHistory[priceHistory.length - 1].close : currentPrice;
+    const volatility = 0.0002;
+    
+    const open = prevClose + (Math.random() - 0.5) * volatility;
+    const close = open + (Math.random() - 0.5) * volatility;
+    const high = Math.max(open, close) + Math.random() * volatility * 0.5;
+    const low = Math.min(open, close) - Math.random() * volatility * 0.5;
+    
+    const ohlc = { open, high, low, close };
+    priceHistory.push(ohlc);
+    
+    // Create candlestick container
+    const candlestick = document.createElement('div');
+    candlestick.className = 'candlestick ' + (close > open ? 'green' : 'red');
+    
+    // Calculate positions and sizes
+    const chartHeight = 220; // Available chart height
+    const priceRange = 0.002; // Price range for scaling
+    const basePrice = 1.91300;
+    
+    const bodyHeight = Math.abs(close - open) / priceRange * chartHeight;
+    const bodyTop = (high - Math.max(open, close)) / priceRange * chartHeight;
+    const upperWickHeight = (high - Math.max(open, close)) / priceRange * chartHeight;
+    const lowerWickHeight = (Math.min(open, close) - low) / priceRange * chartHeight;
+    
+    // Create body
+    const body = document.createElement('div');
+    body.className = 'candlestick-body';
+    body.style.height = Math.max(bodyHeight, 2) + 'px';
+    body.style.top = bodyTop + 'px';
+    
+    // Create upper wick
+    if (upperWickHeight > 0) {
+        const upperWick = document.createElement('div');
+        upperWick.className = 'candlestick-wick upper';
+        upperWick.style.height = upperWickHeight + 'px';
+        upperWick.style.top = '0px';
+        candlestick.appendChild(upperWick);
+    }
+    
+    // Create lower wick
+    if (lowerWickHeight > 0) {
+        const lowerWick = document.createElement('div');
+        lowerWick.className = 'candlestick-wick lower';
+        lowerWick.style.height = lowerWickHeight + 'px';
+        lowerWick.style.bottom = '0px';
+        candlestick.appendChild(lowerWick);
+    }
+    
+    candlestick.appendChild(body);
+    
+    // Position candlestick
+    candlestick.style.left = (index * 12) + 'px';
+    candlestick.style.width = '10px';
+    candlestick.style.height = chartHeight + 'px';
+    candlestick.style.bottom = '55px';
+    
+    if (animate) {
+        candlestick.style.opacity = '0';
+        candlestick.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            candlestick.style.opacity = '1';
+            candlestick.style.transform = 'translateY(0)';
+        }, 100);
+    }
+    
+    canvas.appendChild(candlestick);
+    candlesticks.push(candlestick);
+    
+    // Remove old candlesticks
+    if (candlesticks.length > 30) {
+        const oldCandle = candlesticks.shift();
+        if (oldCandle && oldCandle.parentNode) {
+            oldCandle.remove();
+        }
+    }
+    
+    // Update positions
+    candlesticks.forEach((candle, i) => {
+        if (candle && candle.style) {
+            candle.style.left = (i * 12) + 'px';
+        }
+    });
+    
+    // Update current price
+    currentPrice = close;
+    updateCurrentPriceLine();
+}
+
+function addCurrentPriceLine() {
+    const priceLine = document.createElement('div');
+    priceLine.className = 'current-price-line';
+    priceLine.id = 'currentPriceLine';
+    priceLine.setAttribute('data-price', currentPrice.toFixed(5));
+    priceLine.style.top = '50%';
+    
+    document.getElementById('chartCanvas').appendChild(priceLine);
+}
+
+function updateCurrentPriceLine() {
+    const priceLine = document.getElementById('currentPriceLine');
+    if (priceLine) {
+        priceLine.setAttribute('data-price', currentPrice.toFixed(5));
+        // Animate price line movement
+        const randomOffset = (Math.random() - 0.5) * 20;
+        priceLine.style.top = (50 + randomOffset) + '%';
+    }
+}
 
         function startChartAnimation() {
-            let candleIndex = 20;
+            let candleIndex = 25;
             chartInterval = setInterval(() => {
-                createCandlestick(candleIndex, true);
+                createRealisticCandlestick(candleIndex, true);
                 candleIndex++;
             }, 800);
         }
