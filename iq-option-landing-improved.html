@@ -854,6 +854,7 @@
     </div>
 
     <script>
+        // Global variables
         let currentRound = 1;
         let totalBalance = 10;
         let gameData = {
@@ -868,6 +869,11 @@
         // Predefined results: Win, Lose, Win, Win
         const predefinedResults = [true, false, true, true];
 
+        // Make functions globally accessible
+        window.startGame = startGame;
+        window.makeBet = makeBet;
+        window.redirectToIQ = redirectToIQ;
+
         // Validate form and enable/disable button
         function validateForm() {
             const name = document.getElementById('name').value.trim();
@@ -881,14 +887,6 @@
                 startBtn.disabled = true;
             }
         }
-
-        // Add event listeners for form validation
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('name').addEventListener('input', validateForm);
-            document.getElementById('phone').addEventListener('input', validateForm);
-            document.getElementById('ageConfirm').addEventListener('change', validateForm);
-            validateForm(); // Initial validation
-        });
 
         // Generate advanced chart with realistic candlesticks
         function generateChart() {
@@ -1217,7 +1215,6 @@
 
         function animateChartResult(direction, isWin) {
             // Create dramatic final candlestick
-            const canvas = document.getElementById('chartCanvas');
             const shouldGoUp = (direction === 'up' && isWin) || (direction === 'down' && !isWin);
             
             // Add visual feedback to the chart
@@ -1273,13 +1270,17 @@
             alert(`🎉 Parabéns ${gameData.name}! Você foi aprovado no teste! Redirecionando para ativação da conta real na IQ Option.`);
         }
 
-        // Initialize chart on load
+        // Add event listeners for form validation
         document.addEventListener('DOMContentLoaded', function() {
-            generateChart();
+            document.getElementById('name').addEventListener('input', validateForm);
+            document.getElementById('phone').addEventListener('input', validateForm);
+            document.getElementById('ageConfirm').addEventListener('change', validateForm);
+            validateForm(); // Initial validation
+            generateChart(); // Initialize chart
         });
 
-        // Prevent form submission on Enter
-        document.addEventListener('keypress', function(e) => {
+        // Prevent form submission on Enter - FIXED SYNTAX
+        document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (document.getElementById('screen1').classList.contains('active')) {
