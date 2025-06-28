@@ -192,129 +192,146 @@
             font-weight: bold;
         }
 
+        /* Advanced Chart Styling */
         .chart-container {
-            background: linear-gradient(135deg, #1a1f2e, #2a2f3e);
-            border: 2px solid #3a3f4e;
-            border-radius: 15px;
-            padding: 15px;
+            background: linear-gradient(135deg, #1e2329, #2b2f36);
+            border: 1px solid #3e4651;
+            border-radius: 12px;
+            padding: 16px;
             margin: 25px 0;
             position: relative;
-            height: 400px;
+            height: 420px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
 
         .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #3a3f4e;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #3e4651;
         }
 
         .pair-info {
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.1rem;
+            color: #f0f0f0;
+            font-weight: 600;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .pair-change {
-            color: #ff4757;
-            font-size: 0.9rem;
-            font-weight: normal;
+            color: #f6465d;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .timer {
-            color: #00ff88;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            background: rgba(0, 255, 136, 0.1);
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #0ecb81;
+            font-weight: 600;
+            font-size: 1rem;
+            background: rgba(14, 203, 129, 0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(14, 203, 129, 0.3);
+            box-shadow: 0 0 10px rgba(14, 203, 129, 0.2);
         }
 
         .chart-canvas {
             width: 100%;
-            height: 280px;
-            background: linear-gradient(180deg, #1a1f2e 0%, #151a28 100%);
-            border-radius: 10px;
+            height: 320px;
+            background: linear-gradient(180deg, #1e2329 0%, #181a20 100%);
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
-            border: 1px solid #2a2f3e;
+            border: 1px solid #2b2f36;
         }
 
+        /* Price Scale */
         .price-scale {
             position: absolute;
-            right: 5px;
-            top: 0;
-            bottom: 0;
-            width: 60px;
+            right: 8px;
+            top: 10px;
+            bottom: 40px;
+            width: 65px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 10px 0;
             font-size: 0.75rem;
-            color: #8892b0;
-            z-index: 5;
+            color: #848e9c;
+            z-index: 10;
         }
 
         .price-level {
-            background: rgba(136, 146, 176, 0.1);
-            padding: 2px 6px;
+            background: rgba(132, 142, 156, 0.08);
+            padding: 3px 8px;
             border-radius: 4px;
             text-align: center;
-            border-left: 2px solid #3a3f4e;
+            border-left: 2px solid #3e4651;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
+        .price-level:hover {
+            background: rgba(132, 142, 156, 0.15);
+            color: #f0f0f0;
+        }
+
+        /* Current Price Line */
         .current-price-line {
             position: absolute;
             right: 0;
-            width: 100%;
-            height: 1px;
-            background: #00ff88;
-            z-index: 10;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            width: calc(100% - 75px);
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0ecb81, #0ecb81);
+            z-index: 15;
+            transition: top 0.3s ease;
+            box-shadow: 0 0 8px rgba(14, 203, 129, 0.6);
         }
 
         .current-price-line::before {
             content: '';
             position: absolute;
-            right: 0;
-            top: -3px;
-            width: 6px;
-            height: 6px;
-            background: #00ff88;
+            right: -1px;
+            top: -4px;
+            width: 8px;
+            height: 8px;
+            background: #0ecb81;
             border-radius: 50%;
-            box-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+            box-shadow: 0 0 12px rgba(14, 203, 129, 0.8);
+            animation: pricePulse 2s infinite;
         }
 
         .current-price-line::after {
             content: attr(data-price);
             position: absolute;
-            right: 8px;
-            top: -10px;
-            background: #00ff88;
+            right: 12px;
+            top: -12px;
+            background: #0ecb81;
             color: #000;
-            padding: 2px 6px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: bold;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(14, 203, 129, 0.3);
         }
 
+        @keyframes pricePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        /* Grid Lines */
         .grid-lines {
             position: absolute;
             top: 0;
             left: 0;
-            right: 65px;
+            right: 75px;
             bottom: 0;
-            opacity: 0.15;
+            opacity: 0.1;
             z-index: 1;
         }
 
@@ -323,7 +340,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: #3a3f4e;
+            background: linear-gradient(90deg, transparent, #3e4651, transparent);
         }
 
         .grid-line-vertical {
@@ -331,110 +348,125 @@
             top: 0;
             bottom: 0;
             width: 1px;
-            background: #3a3f4e;
+            background: linear-gradient(180deg, transparent, #3e4651, transparent);
         }
 
+        /* Time Scale */
         .time-scale {
             position: absolute;
-            bottom: 5px;
+            bottom: 8px;
             left: 0;
-            right: 65px;
-            height: 20px;
+            right: 75px;
+            height: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 10px;
+            padding: 0 12px;
             font-size: 0.7rem;
-            color: #8892b0;
-            z-index: 5;
+            color: #848e9c;
+            z-index: 10;
         }
 
+        .time-label {
+            background: rgba(132, 142, 156, 0.08);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        /* Advanced Candlesticks */
         .candlestick {
             position: absolute;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            z-index: 3;
+            z-index: 5;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .candlestick-body {
-            width: 8px;
-            border-radius: 1px;
+        .candle-wick {
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .candlestick-wick {
             width: 1px;
-            position: absolute;
             left: 50%;
             transform: translateX(-50%);
+            z-index: 1;
         }
 
-        .candlestick-wick.upper {
-            top: 0;
+        .candle-body {
+            position: absolute;
+            width: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 1px;
+            z-index: 2;
+            transition: all 0.3s ease;
         }
 
-        .candlestick-wick.lower {
-            bottom: 0;
+        .candlestick.bullish .candle-wick {
+            background: linear-gradient(180deg, #0ecb81, #0bb574);
         }
 
-        .candlestick.green .candlestick-body {
-            background: linear-gradient(180deg, #00ff88, #00cc6a);
-            border: 1px solid #00aa55;
-            box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        .candlestick.bullish .candle-body {
+            background: linear-gradient(180deg, #0ecb81, #0bb574);
+            border: 1px solid #089966;
+            box-shadow: 0 0 8px rgba(14, 203, 129, 0.4);
         }
 
-        .candlestick.green .candlestick-wick {
-            background: #00cc6a;
+        .candlestick.bearish .candle-wick {
+            background: linear-gradient(180deg, #f6465d, #e53e3e);
         }
 
-        .candlestick.red .candlestick-body {
-            background: linear-gradient(180deg, #ff4757, #ff3742);
-            border: 1px solid #cc2233;
-            box-shadow: 0 0 8px rgba(255, 71, 87, 0.3);
-        }
-
-        .candlestick.red .candlestick-wick {
-            background: #ff3742;
+        .candlestick.bearish .candle-body {
+            background: linear-gradient(180deg, #f6465d, #e53e3e);
+            border: 1px solid #c53030;
+            box-shadow: 0 0 8px rgba(246, 70, 93, 0.4);
         }
 
         .candlestick:hover {
             transform: scale(1.1);
-            z-index: 15;
+            z-index: 20;
         }
 
-        .candlestick:hover .candlestick-body {
+        .candlestick:hover .candle-body {
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
-        .volume-indicator {
+        /* Volume Bars */
+        .volume-container {
             position: absolute;
-            bottom: 25px;
+            bottom: 32px;
             left: 0;
-            right: 65px;
-            height: 30px;
+            right: 75px;
+            height: 40px;
             display: flex;
             align-items: end;
             gap: 1px;
-            padding: 0 10px;
+            padding: 0 12px;
             z-index: 2;
         }
 
         .volume-bar {
-            width: 8px;
-            background: rgba(136, 146, 176, 0.3);
+            width: 10px;
+            background: rgba(132, 142, 156, 0.2);
             border-radius: 1px 1px 0 0;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .volume-bar.high {
-            background: rgba(0, 255, 136, 0.4);
+            background: rgba(14, 203, 129, 0.3);
         }
 
+        .volume-bar.medium {
+            background: rgba(255, 192, 0, 0.3);
+        }
+
+        .volume-bar:hover {
+            background: rgba(240, 240, 240, 0.4);
+        }
+
+        /* Trading Buttons */
         .bet-buttons {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             margin: 30px 0;
             justify-content: center;
         }
@@ -442,15 +474,15 @@
         .bet-button {
             flex: 1;
             max-width: 160px;
-            padding: 25px 20px;
+            padding: 20px;
             border: none;
-            border-radius: 20px;
+            border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
         }
@@ -463,7 +495,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            transition: left 0.6s;
         }
 
         .bet-button:hover::before {
@@ -471,20 +503,20 @@
         }
 
         .bet-button.up {
-            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            background: linear-gradient(135deg, #0ecb81, #0bb574);
             color: #000;
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 8px 24px rgba(14, 203, 129, 0.4);
         }
 
         .bet-button.down {
-            background: linear-gradient(45deg, #ff4757, #ff3742);
+            background: linear-gradient(135deg, #f6465d, #e53e3e);
             color: #fff;
-            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            box-shadow: 0 8px 24px rgba(246, 70, 93, 0.4);
         }
 
         .bet-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
         }
 
         .bet-button:disabled {
@@ -495,30 +527,55 @@
 
         .bet-button .main-text {
             display: block;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
+        /* Profit Notification */
+        .profit-notification {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #0ecb81, #0bb574);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            z-index: 100;
+            animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-out 2.5s;
+            display: none;
+            box-shadow: 0 8px 24px rgba(14, 203, 129, 0.4);
+        }
+
+        .profit-notification.loss {
+            background: linear-gradient(135deg, #f6465d, #e53e3e);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(246, 70, 93, 0.4);
+        }
+
+        /* Result Message */
         .result-message {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.4rem;
+            font-weight: 600;
             margin: 25px 0;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 12px;
             display: none;
             animation: slideUp 0.5s ease-out;
         }
 
         .result-message.win {
-            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            background: linear-gradient(135deg, #0ecb81, #0bb574);
             color: #000;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 8px 24px rgba(14, 203, 129, 0.3);
         }
 
         .result-message.lose {
-            background: linear-gradient(45deg, #ff4757, #ff3742);
+            background: linear-gradient(135deg, #f6465d, #e53e3e);
             color: #fff;
-            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.3);
+            box-shadow: 0 8px 24px rgba(246, 70, 93, 0.3);
         }
 
         /* Screen 3 - Final Conversion */
@@ -601,6 +658,16 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
         .slide-up {
             animation: slideUp 0.8s ease-out;
         }
@@ -616,16 +683,38 @@
             }
             
             .bet-button {
-                padding: 20px 15px;
+                padding: 18px 15px;
                 font-size: 1rem;
             }
             
             .chart-container {
-                height: 320px;
+                height: 380px;
+                padding: 12px;
             }
 
             .chart-canvas {
-                height: 220px;
+                height: 280px;
+            }
+
+            .price-scale {
+                width: 55px;
+                right: 6px;
+            }
+
+            .current-price-line {
+                width: calc(100% - 65px);
+            }
+
+            .grid-lines {
+                right: 65px;
+            }
+
+            .time-scale {
+                right: 65px;
+            }
+
+            .volume-container {
+                right: 65px;
             }
         }
 
@@ -643,37 +732,6 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        .profit-notification {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(45deg, #00ff88, #00cc6a);
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            z-index: 100;
-            animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-out 2.5s;
-            display: none;
-        }
-
-        .profit-notification.loss {
-            background: linear-gradient(45deg, #ff4757, #ff3742);
-            color: #fff;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
     </style>
 </head>
 <body>
@@ -687,7 +745,7 @@
                 <br><br>
                 💼 Complete nosso teste de aptidão e comprove que você tem o perfil para operar no mercado financeiro internacional.
                 <br><br>
-                🔒 <strong>Vagas limitadas:</strong> Apenas 50 novos investidores por mês recebem acesso + bônus de R$10,00 para o teste inicial, você foi presenteado para esse teste.
+                🔒 <strong>Vagas limitadas:</strong> Apenas 50 novos investidores por mês recebem acesso + bônus de R$10,00.
             </p>
             
             <div class="trust-indicators">
@@ -804,13 +862,11 @@
         };
         let chartInterval;
         let candlesticks = [];
+        let currentPrice = 191.350;
+        let priceHistory = [];
 
         // Predefined results: Win, Lose, Win, Win
         const predefinedResults = [true, false, true, true];
-
-        // Realistic price data
-        let currentPrice = 1.91350;
-        let priceHistory = [];
 
         // Validate form and enable/disable button
         function validateForm() {
@@ -834,25 +890,23 @@
             validateForm(); // Initial validation
         });
 
-        // Generate realistic candlestick chart with proper OHLC data
+        // Generate advanced chart with realistic candlesticks
         function generateChart() {
             const canvas = document.getElementById('chartCanvas');
-            
-            // Clear existing elements
             canvas.innerHTML = '';
             
-            // Generate grid lines and scales
+            // Generate all chart elements
             generateGridLines();
             generatePriceScale();
             generateTimeScale();
-            generateVolumeIndicators();
+            generateVolumeContainer();
             
             candlesticks = [];
             priceHistory = [];
             
-            // Generate initial realistic candlesticks
-            for (let i = 0; i < 25; i++) {
-                createRealisticCandlestick(i, false);
+            // Generate initial candlesticks
+            for (let i = 0; i < 30; i++) {
+                createAdvancedCandlestick(i, false);
             }
             
             // Add current price line
@@ -866,19 +920,19 @@
             const gridContainer = document.createElement('div');
             gridContainer.className = 'grid-lines';
             
-            // Horizontal lines (price levels)
-            for (let i = 0; i <= 8; i++) {
+            // Horizontal grid lines
+            for (let i = 0; i <= 10; i++) {
                 const line = document.createElement('div');
                 line.className = 'grid-line-horizontal';
-                line.style.top = (i * 12.5) + '%';
+                line.style.top = (i * 10) + '%';
                 gridContainer.appendChild(line);
             }
             
-            // Vertical lines (time intervals)
-            for (let i = 0; i <= 12; i++) {
+            // Vertical grid lines
+            for (let i = 0; i <= 15; i++) {
                 const line = document.createElement('div');
                 line.className = 'grid-line-vertical';
-                line.style.left = (i * 8.33) + '%';
+                line.style.left = (i * 6.67) + '%';
                 gridContainer.appendChild(line);
             }
             
@@ -889,11 +943,11 @@
             const priceScale = document.createElement('div');
             priceScale.className = 'price-scale';
             
-            const basePrice = 1.91300;
-            for (let i = 0; i < 9; i++) {
+            const basePrice = 191.300;
+            for (let i = 0; i < 11; i++) {
                 const priceLevel = document.createElement('div');
                 priceLevel.className = 'price-level';
-                const price = (basePrice + (i * 0.00025)).toFixed(5);
+                const price = (basePrice + (i * 0.010)).toFixed(3);
                 priceLevel.textContent = price;
                 priceScale.appendChild(priceLevel);
             }
@@ -908,6 +962,7 @@
             const times = ['10:58', '11:02', '11:06', '11:10', '11:14'];
             times.forEach(time => {
                 const timeLabel = document.createElement('span');
+                timeLabel.className = 'time-label';
                 timeLabel.textContent = time;
                 timeScale.appendChild(timeLabel);
             });
@@ -915,18 +970,21 @@
             document.getElementById('chartCanvas').appendChild(timeScale);
         }
 
-        function generateVolumeIndicators() {
+        function generateVolumeContainer() {
             const volumeContainer = document.createElement('div');
-            volumeContainer.className = 'volume-indicator';
+            volumeContainer.className = 'volume-container';
             
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 30; i++) {
                 const volumeBar = document.createElement('div');
                 volumeBar.className = 'volume-bar';
-                const height = Math.random() * 20 + 5;
+                const height = Math.random() * 30 + 5;
                 volumeBar.style.height = height + 'px';
                 
-                if (Math.random() > 0.7) {
+                const rand = Math.random();
+                if (rand > 0.7) {
                     volumeBar.classList.add('high');
+                } else if (rand > 0.4) {
+                    volumeBar.classList.add('medium');
                 }
                 
                 volumeContainer.appendChild(volumeBar);
@@ -935,70 +993,55 @@
             document.getElementById('chartCanvas').appendChild(volumeContainer);
         }
 
-        function createRealisticCandlestick(index, animate = true) {
+        function createAdvancedCandlestick(index, animate = true) {
             const canvas = document.getElementById('chartCanvas');
             
             // Generate realistic OHLC data
             const prevClose = priceHistory.length > 0 ? priceHistory[priceHistory.length - 1].close : currentPrice;
-            const volatility = 0.0002;
+            const volatility = 0.05;
             
             const open = prevClose + (Math.random() - 0.5) * volatility;
             const close = open + (Math.random() - 0.5) * volatility;
-            const high = Math.max(open, close) + Math.random() * volatility * 0.5;
-            const low = Math.min(open, close) - Math.random() * volatility * 0.5;
+            const high = Math.max(open, close) + Math.random() * volatility * 0.8;
+            const low = Math.min(open, close) - Math.random() * volatility * 0.8;
             
             const ohlc = { open, high, low, close };
             priceHistory.push(ohlc);
             
             // Create candlestick container
             const candlestick = document.createElement('div');
-            candlestick.className = 'candlestick ' + (close > open ? 'green' : 'red');
+            const isBullish = close > open;
+            candlestick.className = 'candlestick ' + (isBullish ? 'bullish' : 'bearish');
             
             // Calculate positions and sizes
-            const chartHeight = 180; // Available chart height (excluding volume area)
-            const priceRange = 0.002; // Price range for scaling
-            const basePrice = 1.91300;
+            const chartHeight = 240; // Available chart height
+            const priceRange = 0.2; // Price range for scaling
+            const basePrice = 191.200;
             
-            // Calculate relative positions
+            // Calculate relative positions (inverted for screen coordinates)
             const highPos = ((basePrice + priceRange) - high) / priceRange * chartHeight;
             const lowPos = ((basePrice + priceRange) - low) / priceRange * chartHeight;
             const openPos = ((basePrice + priceRange) - open) / priceRange * chartHeight;
             const closePos = ((basePrice + priceRange) - close) / priceRange * chartHeight;
             
-            const bodyTop = Math.min(openPos, closePos);
-            const bodyHeight = Math.abs(closePos - openPos);
-            const upperWickHeight = bodyTop - highPos;
-            const lowerWickHeight = lowPos - Math.max(openPos, closePos);
+            // Create wick
+            const wick = document.createElement('div');
+            wick.className = 'candle-wick';
+            wick.style.top = highPos + 'px';
+            wick.style.height = (lowPos - highPos) + 'px';
             
             // Create body
             const body = document.createElement('div');
-            body.className = 'candlestick-body';
-            body.style.height = Math.max(bodyHeight, 2) + 'px';
-            body.style.top = bodyTop + 'px';
+            body.className = 'candle-body';
+            body.style.top = Math.min(openPos, closePos) + 'px';
+            body.style.height = Math.max(Math.abs(closePos - openPos), 2) + 'px';
             
-            // Create upper wick
-            if (upperWickHeight > 0) {
-                const upperWick = document.createElement('div');
-                upperWick.className = 'candlestick-wick upper';
-                upperWick.style.height = upperWickHeight + 'px';
-                upperWick.style.top = highPos + 'px';
-                candlestick.appendChild(upperWick);
-            }
-            
-            // Create lower wick
-            if (lowerWickHeight > 0) {
-                const lowerWick = document.createElement('div');
-                lowerWick.className = 'candlestick-wick lower';
-                lowerWick.style.height = lowerWickHeight + 'px';
-                lowerWick.style.top = Math.max(openPos, closePos) + 'px';
-                candlestick.appendChild(lowerWick);
-            }
-            
+            candlestick.appendChild(wick);
             candlestick.appendChild(body);
             
             // Position candlestick
-            candlestick.style.left = (index * 12) + 'px';
-            candlestick.style.width = '10px';
+            candlestick.style.left = (index * 10) + 'px';
+            candlestick.style.width = '8px';
             candlestick.style.height = chartHeight + 'px';
             candlestick.style.top = '20px';
             
@@ -1015,17 +1058,17 @@
             candlesticks.push(candlestick);
             
             // Remove old candlesticks
-            if (candlesticks.length > 30) {
+            if (candlesticks.length > 35) {
                 const oldCandle = candlesticks.shift();
                 if (oldCandle && oldCandle.parentNode) {
                     oldCandle.remove();
                 }
             }
             
-            // Update positions
+            // Update positions of existing candlesticks
             candlesticks.forEach((candle, i) => {
                 if (candle && candle.style) {
-                    candle.style.left = (i * 12) + 'px';
+                    candle.style.left = (i * 10) + 'px';
                 }
             });
             
@@ -1038,7 +1081,7 @@
             const priceLine = document.createElement('div');
             priceLine.className = 'current-price-line';
             priceLine.id = 'currentPriceLine';
-            priceLine.setAttribute('data-price', currentPrice.toFixed(5));
+            priceLine.setAttribute('data-price', currentPrice.toFixed(3));
             priceLine.style.top = '50%';
             
             document.getElementById('chartCanvas').appendChild(priceLine);
@@ -1047,19 +1090,19 @@
         function updateCurrentPriceLine() {
             const priceLine = document.getElementById('currentPriceLine');
             if (priceLine) {
-                priceLine.setAttribute('data-price', currentPrice.toFixed(5));
-                // Animate price line movement
-                const randomOffset = (Math.random() - 0.5) * 20;
-                priceLine.style.top = (50 + randomOffset) + '%';
+                priceLine.setAttribute('data-price', currentPrice.toFixed(3));
+                // Smooth price line movement
+                const randomOffset = (Math.random() - 0.5) * 30;
+                priceLine.style.top = Math.max(10, Math.min(90, 50 + randomOffset)) + '%';
             }
         }
 
         function startChartAnimation() {
-            let candleIndex = 25;
+            let candleIndex = 30;
             chartInterval = setInterval(() => {
-                createRealisticCandlestick(candleIndex, true);
+                createAdvancedCandlestick(candleIndex, true);
                 candleIndex++;
-            }, 800);
+            }, 1000);
         }
 
         function stopChartAnimation() {
@@ -1127,14 +1170,14 @@
                     amount = Math.floor(Math.random() * 36) + 50; // R$50-86
                     totalBalance += amount;
 
-                    // Mostrar notificação sobre o gráfico
+                    // Show notification above chart
                     const notification = document.createElement('div');
                     notification.className = 'profit-notification';
                     notification.textContent = `+R$ ${amount},00`;
                     document.querySelector('.chart-container').appendChild(notification);
                     notification.style.display = 'block';
 
-                    // Remover notificação após 3 segundos e continuar automaticamente
+                    // Remove notification and continue automatically
                     setTimeout(() => {
                         notification.remove();
                         nextOperation();
@@ -1146,14 +1189,14 @@
                     amount = Math.floor(Math.random() * 20) + 10; // R$10-30
                     totalBalance -= amount;
 
-                    // Mostrar notificação sobre o gráfico
+                    // Show notification above chart
                     const notification = document.createElement('div');
                     notification.className = 'profit-notification loss';
                     notification.textContent = `-R$ ${amount},00`;
                     document.querySelector('.chart-container').appendChild(notification);
                     notification.style.display = 'block';
 
-                    // Remover notificação após 3 segundos e continuar automaticamente
+                    // Remove notification and continue automatically
                     setTimeout(() => {
                         notification.remove();
                         nextOperation();
@@ -1173,23 +1216,19 @@
         }
 
         function animateChartResult(direction, isWin) {
-            // Create a dramatic final candlestick
+            // Create dramatic final candlestick
             const canvas = document.getElementById('chartCanvas');
-            const finalCandle = document.createElement('div');
-            
             const shouldGoUp = (direction === 'up' && isWin) || (direction === 'down' && !isWin);
             
-            finalCandle.className = 'candlestick ' + (shouldGoUp ? 'green' : 'red');
-            finalCandle.style.left = '300px';
-            finalCandle.style.width = '15px';
-            finalCandle.style.height = shouldGoUp ? '100px' : '30px';
-            finalCandle.style.bottom = shouldGoUp ? '120px' : '50px';
-            finalCandle.style.zIndex = '10';
-            finalCandle.style.boxShadow = shouldGoUp ? 
-                '0 0 25px rgba(0, 255, 136, 0.8)' : 
-                '0 0 25px rgba(255, 71, 87, 0.8)';
+            // Add visual feedback to the chart
+            const chartContainer = document.querySelector('.chart-container');
+            chartContainer.style.boxShadow = shouldGoUp ? 
+                '0 0 30px rgba(14, 203, 129, 0.6)' : 
+                '0 0 30px rgba(246, 70, 93, 0.6)';
             
-            canvas.appendChild(finalCandle);
+            setTimeout(() => {
+                chartContainer.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.6)';
+            }, 2000);
         }
 
         function nextOperation() {
@@ -1204,7 +1243,7 @@
                 return;
             }
             
-            // Reset for next round
+            // Reset for next operation
             document.getElementById('operationCounter').textContent = `🎯 Operação ${currentRound} de 4`;
             document.getElementById('resultMessage').style.display = 'none';
             
@@ -1222,7 +1261,7 @@
 
         function redirectToIQ() {
             // Replace with your IQ Option affiliate link
-            const affiliateLink = 'https://affiliate.iqbroker.com/redir/?aff=783109&aff_model=revenue&afftrack=';
+            const affiliateLink = 'https://iqoption.com/lp/ultimate-trading/pt/?aff=YOUR_AFFILIATE_ID';
             
             // Track conversion
             console.log('Conversion:', gameData);
@@ -1240,7 +1279,7 @@
         });
 
         // Prevent form submission on Enter
-        document.addEventListener('keypress', function(e) {
+        document.addEventListener('keypress', function(e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (document.getElementById('screen1').classList.contains('active')) {
